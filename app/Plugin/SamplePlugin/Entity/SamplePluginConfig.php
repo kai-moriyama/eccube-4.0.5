@@ -120,7 +120,7 @@ class SamplePluginConfig
     }
 
     /**
-     * Get OptionGift.
+     * Get optionGift.
      *
      * @return boolean
      */
