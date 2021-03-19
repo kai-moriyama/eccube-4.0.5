@@ -1,0 +1,48 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) LOCKON CO.,LTD. All Rights Reserved.
+
+http://www.lockon.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape false %}
+
+{#
+※本メールは自動配信メールです。
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+　※本メールは、
+　{{ BaseInfo.shop_name }}より会員登録を希望された方に
+　お送りしています。
+　もしお心当たりが無い場合は、
+　その旨 {{ BaseInfo.email02 }} まで
+　ご連絡いただければ幸いです。
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+{{ CustomerAddress.name01 }} {{ CustomerAddress.name02 }} 様
+
+{{ BaseInfo.shop_name }}でございます。
+
+新規お届け先を追加いたしました。下記お届け先内容にお間違えがないかご確認下さい。
+#}
+
+※本メールは自動配信メールです。
+
+{{ BaseInfo.shop_name }}会員様よりお届け先が追加されたお知らせメールになります。
+以下追加内容になります。
+
+編集対象会員情報ID：{{ Customer.id }}
+
+お名前：{{ CustomerAddress.name01 }} {{ CustomerAddress.name02 }}
+お名前（カナ）：{{ CustomerAddress.kana01 }} {{ CustomerAddress.kana02 }}
+会社名：{{ CustomerAddress.company_name }}
+住所：{{ CustomerAddress.postal_code }}
+{{ CustomerAddress.pref }}
+{{ CustomerAddress.addr01 }}
+{{ CustomerAddress.addr02 }}
+電話番号：{{ CustomerAddress.phone_number }}
+
+{% endautoescape %}

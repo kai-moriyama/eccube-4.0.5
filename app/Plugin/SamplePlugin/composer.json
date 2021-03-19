@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/SamplePlugin",
+  "version": "1.0.0",
+  "description": "SamplePlugin",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.7"
+  },
+  "extra": {
+    "code": "SamplePlugin"
+  }
+}

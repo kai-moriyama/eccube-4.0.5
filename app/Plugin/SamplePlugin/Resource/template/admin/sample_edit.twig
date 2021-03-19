@@ -1,0 +1,89 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['store', 'plugin', 'sample_edit'] %}
+
+{% block title %}SamplePlugin{% endblock %}
+{% block sub_title %}サンプル登録{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block javascript %}
+{% endblock %}
+
+{% block main %}
+    <form name="form1" role="form" class="form-horizontal h-adr" id="point_form" method="post" action="">
+        <span class="p-country-name" style="display:none;">Japan</span>
+
+        {{ form_widget(form._token) }}
+
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <span>details</span>
+                        </div>
+                        <div id="ex-shop-basic" class="card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>name</span>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.name) }}
+                                    {{ form_errors(form.name) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top" title="小数点以下第は第一位を四捨五入されます。"><span>price</span><i class="fa fa-question-circle fa-lg ml-1"></i></div>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.price) }}
+                                    {{ form_errors(form.price) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top" title="オンにすると商品購入時粗品をプレゼントします。"><span>option</span><i class="fa fa-question-circle fa-lg ml-1"></i></div>
+                                </div>
+                                <div class="col mb-2">
+                                    {{ form_widget(form.option_gift) }}
+                                    {{ form_errors(form.option_gift) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 戻る/登録/更新ボタンのエリア -->
+                    <div class="c-conversionArea">
+                        <div class="c-conversionArea__container">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-6">
+                                    <div class="c-conversionArea__leftBlockItem">
+                                        <a class="c-baseLink" href="{{ url('sample_plugin_admin_config') }}">
+                                            <i class="fa fa-backward" aria-hidden="true"></i><span>{{ 'admin.store.plugin_owners_search.modal.cancel'|trans }}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div id="ex-conversion-action" class="row align-items-center justify-content-end">
+                                        <div class="col-auto">
+                                            <!-- Donut.idの値がnotNullなら「更新」button、nullなら「登録」button -->
+                                            <button class="btn btn-ec-conversion px-5" type="submit">
+                                                {% if Sample.id is defined and Sample.id is not null %}
+                                                    {{ 'admin.content.file.updated'|trans }}
+                                                {% else %}
+                                                    {{ 'admin.common.registration'|trans }}
+                                                {% endif %}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

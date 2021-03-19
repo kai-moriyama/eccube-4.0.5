@@ -1,0 +1,127 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['store', 'plugin', 'sample_list'] %}
+
+{% block title %}SamplePlugin{% endblock %}
+{% block sub_title %}サンプル一覧{% endblock %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        li.list-group-item {
+            z-index: inherit !important;
+        }
+    </style>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.core.min.js', 'admin') }}"></script>
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.widget.min.js', 'admin') }}"></script>
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.mouse.min.js', 'admin') }}"></script>
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.sortable.min.js', 'admin') }}"></script>
+    <script>
+        $(function() {
+
+            // 削除モーダルのhrefとmessageの変更
+            $('#DeleteModal').on('shown.bs.modal', function(event) {
+                var target = $(event.relatedTarget);
+                // hrefの変更
+                $(this).find('[data-method="put"]').attr('href', target.data('url'));
+
+                // messageの変更
+                $(this).find('p.modal-message').text(target.data('message'));
+            });
+        });
+
+    </script>
+{% endblock %}
+
+{% block main %}
+    <div class="c-contentsArea__cols">
+        <div class="c-contentsArea__primaryCol">
+            <div class="c-primaryCol">
+                <div class="d-block mb-3">
+                    <a class="btn btn-ec-regular" href="{{ url('sample_plugin_admin_new') }}">{{ 'admin.common.create__new'|trans }}</a>
+                </div>
+                <div class="card rounded border-0 mb-4">
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush sortable-container">
+                            <li class="list-group-item">
+                                <div class="row justify-content-around">
+                                    <div class="col-auto"><strong>&nbsp;</strong></div>
+                                    <div class="col-auto"><strong>ID</strong></div>
+                                    <div class="col-3"><strong>name</strong></div>
+                                    <div class="col-2"><strong>price</strong></div>
+                                    <div class="col"><strong>option</strong></div>
+                                </div>
+                            </li>
+                            {% for Sample in Samples %}
+                                <li id="ex-payment-{{ Sample.id }}" class="list-group-item sortable-item" data-id="{{ Sample.id }}" data-sort-no="{{ Sample.id }}">
+                                    <div class="row justify-content-around">
+                                        <div class="col-auto d-flex align-items-center"><i class="fa fa-bars text-ec-gray"></i></div>
+                                        <div class="col-auto d-flex align-items-center">{{ Sample.id }}</div>
+                                        <div class="col-3 d-flex align-items-center"><a href="{{ url('sample_plugin_admin_edit', { id: Sample.id}) }}">{{ Sample.name }}</a></div>
+                                        <div class="col-2 d-flex align-items-center"><span>{{ Sample.price|price }}</span></div>
+                                        <div class="col d-flex align-items-center">
+                                        <span>
+                                            {% if Sample.OptionGift == 0 %}
+                                                無
+                                            {% else %}
+                                                有
+                                            {% endif %}
+                                        </span>
+                                        </div>
+                                        <div class="col-3 text-right">
+                                            <!--編集ボタン-->
+                                            <div class="d-inline-block mr-2" data-tooltip="true" data-placement="top" 
+                                                 title="{{ 'admin.common.edit'|trans }}">
+                                                    <a class="btn btn-ec-actionIcon" href="{{ url('sample_plugin_admin_edit', { id: Sample.id}) }}">
+                                                        <i class="fa fa-pencil fa-lg text-secondary"></i>
+                                                    </a>
+                                            </div>
+                                            <!--削除ボタン-->
+                                            <div class="d-inline-block mr-2" data-tooltip="true" data-placement="top"
+                                                 title="{{ 'admin.common.delete'|trans }}">
+                                                <a class="btn btn-ec-actionIcon" data-toggle="modal" data-target="#DeleteModal"
+                                                   data-url="{{ url('sample_plugin_admin_remove', { id: Sample.id}) }}"
+                                                   data-message="{{ 'admin.common.logical_delete_modal__message'|trans({ "%name%" : Sample.name }) }}">
+                                                    <i class="fa fa-close fa-lg text-secondary"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <!-- 削除モーダル -->
+                        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog"
+                             aria-labelledby="DeleteModal" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title font-weight-bold">
+                                            {{ 'admin.common.delete_modal__title'|trans }}
+                                        </h5>
+                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body text-left">
+                                        <p class="text-left modal-message"><!-- jsでメッセージを挿入 --></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-ec-sub" type="button" data-dismiss="modal">
+                                            {{ 'admin.common.cancel'|trans }}
+                                        </button>
+                                        <a class="btn btn-ec-delete" href="#" {{ csrf_token_for_anchor() }}
+                                           data-method="put" data-confirm="false">
+                                            {{ 'admin.common.delete'|trans }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>{% endblock %}
